@@ -1,0 +1,21 @@
+{
+  "name": "devburger-api",
+  "version": "1.0.0",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "nodemon"
+  },
+  "author": {
+    "name": "Leandro Ferraz",
+    "url": "https://github.com/LeandroFerraz31"
+  },
+  "license": "ISC",
+  "description": "DevBurger API.",
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4",
+    "sucrase": "^3.35.0"
+  }
+}
