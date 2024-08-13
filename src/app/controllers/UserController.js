@@ -1,41 +1,47 @@
 import { v4 } from 'uuid';
-
 import * as Yup from 'yup';
-
 import User from '../models/User';
 
 class UserController {
-	async store(request, response) {
-		const schema = Yup.object({
-			name: Yup.string().required(),
-            email: Yup.string().email().required(),
-            password_hash: Yup.string().min(6).required(),
-            admin: Yup.boolean(),
-		});
+  async store(request, response) {
+    const schema = Yup.object({
+      name: Yup.string().required(),
+      email: Yup.string().email().required(),
+      password: Yup.string().min(6).required(), // Alterado para password
+      admin: Yup.boolean(),
+    });
 
-		try {
-			schema.validateSync(request.body, {abortEarly: false});
-		} catch (err){
-			return response.status(400).json({error: err.errors});
-		}
+    try {
+      schema.validateSync(request.body, {abortEarly: false});
+    } catch (err){
+      return response.status(400).json({error: err.errors});
+    }
 
-		const { name, email, password_hash, admin } = request.body;
+    const { name, email, password, admin } = request.body;
 
-		const user = await User.create({
-			id: v4(),
-			name,
-			email,
-			password_hash,
-            admin,
-		});
+    const userExists = await User.findOne({
+      where: { email },
+    });
 
-		return response.status(201).json({
-			id: user.id,
-			name,
-			email,
-			admin,
-		});
-	}
+    if (userExists) {
+      return response.status(409).json({ error: 'User already exists' });
+    }
+
+    const user = await User.create({
+      id: v4(),
+      name,
+      email,
+      password, // Passar o campo password para o hook tratar
+      admin,
+    });
+
+    return response.status(201).json({
+      id: user.id,
+      name,
+      email,
+      admin,
+    });
+  }
 }
 
 export default new UserController();
