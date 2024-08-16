@@ -1,31 +1,23 @@
 import jwt from 'jsonwebtoken';
 import authConfig from '../config/auth';
 
-function autjMiddleware(request, response, next) {
+function authMiddleware(request, response, next) {
 	const authToken = request.headers.authorization;
 
 	if (!authToken) {
 		return response.status(401).json({ error: 'Token not provided.' });
 	}
 
-	const token = authToken.split(' ').at(1);
+	const token = authToken.split(' ')[1];
 
-	try {
-		jwt.verify(token, authConfig.secret, (err, decoded) => {
-			if (err) {
-				throw new Error();
-			}
+	jwt.verify(token, authConfig.secret, (err, decoded) => {
+		if (err) {
+			return response.status(401).json({ error: 'Token invalid.' });
+		}
 
-            request.userId = decoded.id
-
-            
-		});
-	// eslint-disable-next-line no-unused-vars
-	} catch (err) {
-        return response.status(401).json({ error:  'Token invalid.' });
-    }
-
-	return next();
+		request.userId = decoded.id;
+		return next();
+	});
 }
 
-export default autjMiddleware;
+export default authMiddleware;
