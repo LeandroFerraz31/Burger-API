@@ -2,41 +2,46 @@
 
 # 🚀 **Bem-vindo ao Backend da Aplicação!** 🚀
 
-Este é um backend ágil e poderoso desenvolvido com **Express** e **Sequelize**. Ele fornece uma API RESTful para gerenciar usuários, produtos e autenticação, utilizando **PostgreSQL**, **bcrypt** e **multer** para o armazenamento seguro e eficiente de dados e arquivos.
+Este é um backend ágil e poderoso desenvolvido com **Express** e **Sequelize**. Ele fornece uma API RESTful para gerenciar usuários, produtos e autenticação, utilizando **PostgreSQL**, **bcrypt**, **multer** e **JWT** para o armazenamento seguro e eficiente de dados, arquivos e autenticação.
 
 ## 🛠️ **Estrutura do Projeto**
 
 - **Database**: Conexão e configuração do Sequelize para PostgreSQL.
 - **Models**: Definição de modelos, incluindo:
-  - **User**: Segurança adicional para hashes de senhas.
+  - **User**: Segurança adicional para hashes de senhas com **bcrypt**.
   - **Product**: Armazena informações de produtos, incluindo nome, preço, categoria, e caminho para o arquivo de imagem.
 - **Controllers**: A lógica por trás do gerenciamento de usuários, produtos, e autenticação.
   - **UserController**: Cria novos usuários com validação de dados.
   - **SessionController**: Autentica usuários com verificação robusta de credenciais.
   - **ProductController**: Gerencia a criação e listagem de produtos, incluindo validação e upload de imagens.
+- **Middlewares**: Funções intermediárias que garantem a segurança e a eficiência do backend.
+  - **AuthMiddleware**: Verifica a validade do token JWT para proteger rotas.
 - **Config**: Configurações adicionais, como:
+  - **Auth**: Configuração do JWT, incluindo segredo e tempo de expiração do token.
   - **Multer**: Configuração para armazenamento de arquivos com nomes únicos gerados por UUID.
-- **Routes**: Roteamento eficiente para criação de usuários, produtos, e autenticação.
+- **Routes**: Roteamento eficiente para criação de usuários, produtos, e autenticação, protegendo rotas com o middleware de autenticação JWT.
 - **Server**: Configuração e execução do servidor Express.
 
 ## 💡 **Funcionalidades**
 
 - **Criação de Usuário** (`POST /users`): Cadastre novos usuários com validação detalhada.
-- **Autenticação de Usuário** (`POST /session`): Faça login com credenciais seguras e verifique a identidade.
+- **Autenticação de Usuário** (`POST /session`): Faça login com credenciais seguras e verifique a identidade, recebendo um token JWT.
 - **Criação de Produto** (`POST /products`): Adicione novos produtos com nome, preço, categoria, e upload de imagem.
 - **Listagem de Produtos** (`GET /products`): Obtenha uma lista de todos os produtos cadastrados.
+- **Proteção de Rotas**: Rotas sensíveis são protegidas com o middleware de autenticação JWT, garantindo acesso apenas para usuários autenticados.
 
 ## 📋 **Requisitos**
 
 Certifique-se de ter os seguintes itens prontos:
 
-- Node.js
-- PostgreSQL
-- Sequelize
-- Bcrypt
-- Express
-- Yup (para validação de dados)
-- Multer (para upload de arquivos)
+- **Node.js**: Plataforma para executar o servidor e o código JavaScript no backend.
+- **PostgreSQL**: Banco de dados relacional utilizado para armazenar informações.
+- **Sequelize**: ORM (Object-Relational Mapping) para conectar e interagir com o PostgreSQL.
+- **Bcrypt**: Biblioteca para hashing de senhas.
+- **Express**: Framework para construir o servidor e gerenciar rotas.
+- **Yup**: Biblioteca para validação de dados.
+- **Multer**: Middleware para o upload de arquivos.
+- **JWT**: Biblioteca para gerar e verificar tokens de autenticação.
 
 ## ⚙️ **Configuração e Execução**
 
@@ -53,19 +58,36 @@ Siga estes passos para configurar e executar o backend:
    ```
 
 3. **Configure o banco de dados**:
-   Ajuste o arquivo `config/database.js` com suas credenciais.
+   Ajuste o arquivo `config/database.js` com suas credenciais do PostgreSQL.
 
-4. **Execute as migrações**:
+4. **Configure o JWT**:
+   Ajuste o arquivo `config/auth.js` com um segredo forte e defina o tempo de expiração do token.
+
+5. **Execute as migrações**:
    Crie as tabelas no banco de dados com:
    ```bash
    npx sequelize-cli db:migrate
    ```
 
-5. **Inicie o servidor**:
+6. **Inicie o servidor**:
    Coloque tudo em movimento:
    ```bash
    npm start
    ```
+
+7. **Desenvolvimento**:
+   - Use **Nodemon** para reiniciar automaticamente o servidor durante o desenvolvimento. Execute:
+     ```bash
+     npm run dev
+     ```
+   - **Biome** e **ESLint** ajudarão a garantir a qualidade e a consistência do código. Execute **Biome** e **ESLint** para análise e linting:
+     ```bash
+     npx biome
+     npx eslint .
+     ```
+
+8. **Gitignore**:
+   - O arquivo **.gitignore** está configurado para ignorar arquivos e pastas que não devem ser versionados, como `node_modules` e arquivos de configuração locais.
 
 Seu servidor estará pronto para rodar na porta 3001! 🌟
 
@@ -73,4 +95,4 @@ Seu servidor estará pronto para rodar na porta 3001! 🌟
 
 Se você encontrar algum problema ou tiver dúvidas, não hesite em abrir uma issue ou contribuir. Estamos aqui para ajudar!
 
----
+----
