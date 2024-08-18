@@ -6,7 +6,9 @@ import User from "../app/models/User";
 
 import Product from "../app/models/Product";
 
-const models = [User, Product]
+import Category from "../app/models/Category";
+
+const models = [User, Product, Category]
 
 class Database{
     constructor(){
