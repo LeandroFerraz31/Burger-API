@@ -1,25 +1,30 @@
-import Sequelize  from "sequelize";
+import Sequelize from 'sequelize';
+import mongoose from 'mongoose'
+import configDatabase from '../config/database';
+import User from '../app/models/User';
+import Product from '../app/models/Product';
+import Category from '../app/models/Category';
 
-import configDatabase from '../config/database'
+const models = [User, Product, Category];
 
-import User from "../app/models/User";
+class Database {
+	constructor() {
+		this.init();
+        this.mongo();
+	}
 
-import Product from "../app/models/Product";
+	init() {
+		this.connection = new Sequelize(configDatabase);
 
-import Category from "../app/models/Category";
+		models
+			.map((model) => model.init(this.connection))
+			// biome-ignore lint/complexity/useOptionalChain: <explanation>
+			.map((model) => model.associate && model.associate(this.connection.models)); // Corrigido para 'this.connection.models'
+	}
 
-const models = [User, Product, Category]
-
-class Database{
-    constructor(){
-        this.init();
+    mongo() {
+        this.mongoConnection = mongoose.connect('mongodb://localhost:27017/devburger')
     }
-
-    init(){
-        this.connection = new Sequelize(configDatabase);
-        models.map((model) => model.init(this.connection))
-    }
-            
 }
 
 export default new Database();
