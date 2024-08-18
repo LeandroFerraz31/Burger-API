@@ -2,38 +2,39 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-      await queryInterface.createTable('products', { 
-        id: {
-        type: Sequelize.UUID,
-        primaryKey: true,
-        defaultValue: Sequelize.UUIDV4,
+    await queryInterface.createTable('products', { 
+      id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        autoIncrement: true,  // Garante que o id será auto-incrementado
+        primaryKey: true
       },
       name: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       price: {
         type: Sequelize.DECIMAL(10, 2),
-        allowNull: false,
+        allowNull: false
       },
-      category:{
+      category: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
-      path:{
+      path: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       created_at: {
         type: Sequelize.DATE,
-        allowNull: false,
+        allowNull: false
       },
       updated_at: {
         type: Sequelize.DATE,
-        allowNull: false,
-      },
-        
+        allowNull: false
+      }
     });
+    
         
   },
 

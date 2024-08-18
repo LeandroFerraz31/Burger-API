@@ -1,4 +1,4 @@
-import { v4 } from 'uuid';
+
 import * as Yup from 'yup';
 import Product from '../models/Product';
 
@@ -21,8 +21,8 @@ class ProductController {
 
 		const {name, price, category } = request.body
 
-		const product = await Product.create({
-			id: v4(),
+		const {id} = await Product.create({
+			
 			name,
             price,
             category,
@@ -33,7 +33,11 @@ class ProductController {
 		
 		
 
-		return response.status(201).json(product);
+		return response.status(201).json({id,
+			name,
+            price,
+            category,
+            path,});
 	}
 	async index(request, response) {
         const products = await Product.findAll();
