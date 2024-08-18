@@ -7,12 +7,13 @@ class Category extends Model {
 		super.init(
 			{
 				name: Sequelize.STRING,
-				
 			},
 			{
 				sequelize,
 			},
 		);
+		// biome-ignore lint/complexity/noThisInStatic: <explanation>
+		return this;
 	}
 }
 
