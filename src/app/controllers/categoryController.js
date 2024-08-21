@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 import Category from '../models/Category';
 
-class categoryController {
+class CategoryController {
 	async store(request, response) {
 		const schema = Yup.object({
 			name: Yup.string().required(),
@@ -36,4 +36,4 @@ class categoryController {
 	}
 }
 
-export default new categoryController();
+export default new CategoryController();
